@@ -23,10 +23,22 @@ def contacts():
 
     page = {
         'title': 'Contatos',
-        'css': 'home.css'
+        'css': 'home.css',
+        'js': 'contacts.js'
     }
 
     return render_template('contacts.html', page = page)
+
+@app.route('/about')
+def about():
+    
+    page = {
+        'title': 'Sobre',
+        'css': 'home.css',
+        'js': 'about.js'
+    }
+    
+    return render_template('about.html', page = page)
 
 if __name__ == '__main__':
     app.run(debug=True)
