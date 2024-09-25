@@ -9,7 +9,7 @@ DROP DATABASE IF EXISTS vtblogdb;
 -- Cria o banco de dados novamente
 -- PERIGO! Não faça isso em modo de produção
 CREATE DATABASE vtblogdb
-  -- Usando o conjunto de caracteres UTF-8
+    -- Usando o conjunto de caracteres UTF-8
     CHARACTER SET utf8mb4
     -- Buscas em UTF-8 e case insensitive
     COLLATE utf8mb4_general_ci;
@@ -25,6 +25,7 @@ CREATE TABLE staff (
     sta_email VARCHAR(255) NOT NULL,
     sta_password VARCHAR(63) NOT NULL,
     sta_birth DATE NOT NULL,
+    sta_image VARCHAR(255),
     sta_description VARCHAR(255),
     sta_type ENUM('moderator', 'author', 'admin') DEFAULT 'moderator',
     sta_status ENUM('on', 'off', 'del') DEFAULT 'on'
@@ -47,14 +48,14 @@ CREATE TABLE article (
 
 -- Cria a tabela "comment"
 CREATE TABLE comment (
-  com_id INT PRIMARY KEY AUTO_INCREMENT,
-  com_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  com_article INT,
-  com_author_name VARCHAR(127) NOT NULL,
-  com_author_email VARCHAR(255) NOT NULL,
-  com_comment TEXT NOT NULL,
-  com_status ENUM('on', 'off', 'del') DEFAULT 'on',
-  FOREIGN KEY (com_article) REFERENCES article (art_id)
+    com_id INT PRIMARY KEY AUTO_INCREMENT,
+    com_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    com_article INT,
+    com_author_name VARCHAR(127) NOT NULL,
+    com_author_email VARCHAR(255) NOT NULL,
+    com_comment TEXT NOT NULL,
+    com_status ENUM('on', 'off', 'del') DEFAULT 'on',
+    FOREIGN KEY (com_article) REFERENCES article (art_id)
 );
 
 -- Cria a tabela "contact"
@@ -69,9 +70,9 @@ CREATE TABLE contact (
 );
 
 
--- ------------------------------------------ --
--- Popula as tabelas com alguns dados "fakes" --
--- ------------------------------------------ --
+-- ----------------------------------------- --
+-- Popula as tabelas com alguns dados "fake" --
+-- ----------------------------------------- --
 
 -- Tabela "staff"
 INSERT INTO staff (
@@ -79,6 +80,7 @@ INSERT INTO staff (
     sta_email,
     sta_password,
     sta_birth,
+    sta_image,
     sta_description,
     sta_type
 ) VALUES (
@@ -86,6 +88,7 @@ INSERT INTO staff (
     'jocadasilvajoquinha@gmail.com',
     SHA1('Senha123'),
     '2000-03-27',
+    'https://randomuser.me/api/portraits/men/1.jpg',
     'Programador, escultor, pintor, preparador e enrolador.',
     'admin'
 ), (
@@ -93,6 +96,7 @@ INSERT INTO staff (
     'marineuza@email.com',
     SHA1('Senha123'),
     '1999-08-14',
+    'https://randomuser.me/api/portraits/women/1.jpg',
     'Programadora, arrumadora, colecionadora e instrutora.',
     'author'
 );
@@ -103,6 +107,7 @@ INSERT INTO staff (
     sta_email,
     sta_password,
     sta_birth,
+    sta_image,
     sta_description,
     sta_type
 ) VALUES (
@@ -110,70 +115,39 @@ INSERT INTO staff (
     'maria.oliveira@example.com',
     SHA1('Senha123'),
     '1985-07-15',
+    'https://randomuser.me/api/portraits/women/2.jpg',
     'Escritora e revisora de textos.',
     'author'
-);
-
-INSERT INTO staff (
-    sta_name,
-    sta_email,
-    sta_password,
-    sta_birth,
-    sta_description,
-    sta_type
-) VALUES (
+), (
     'Carlos Pereira',
     'carlos.pereira@example.com',
     SHA1('Senha123'),
     '1990-11-22',
+    'https://randomuser.me/api/portraits/men/3.jpg',
     'Moderador de conteúdo e suporte ao cliente.',
     'moderator'
-);
-
-INSERT INTO staff (
-    sta_name,
-    sta_email,
-    sta_password,
-    sta_birth,
-    sta_description,
-    sta_type
-) VALUES (
+), (
     'Ana Souza',
     'ana.souza@example.com',
     SHA1('Senha123'),
     '1995-05-30',
+    'https://randomuser.me/api/portraits/women/4.jpg',
     'Autora de artigos e blogs.',
     'author'
-);
-
-INSERT INTO staff (
-    sta_name,
-    sta_email,
-    sta_password,
-    sta_birth,
-    sta_description,
-    sta_type
-) VALUES (
+), (
     'Pedro Santos',
     'pedro.santos@example.com',
     SHA1('Senha123'),
     '1988-02-14',
+    'https://randomuser.me/api/portraits/men/5.jpg',
     'Moderador de fóruns e redes sociais.',
     'moderator'
-);
-
-INSERT INTO staff (
-    sta_name,
-    sta_email,
-    sta_password,
-    sta_birth,
-    sta_description,
-    sta_type
-) VALUES (
+), (
     'Luciana Lima',
     'luciana.lima@example.com',
     SHA1('Senha123'),
     '1992-09-05',
+    'https://randomuser.me/api/portraits/women/6.jpg',
     'Escritora de ficção e poesia.',
     'author'
 );
@@ -183,7 +157,7 @@ INSERT INTO article (
     art_title,
     art_resume,
     art_thumbnail,
-    art_content, 
+    art_content,
     art_author
 ) VALUES (
     'Primeiro artigo',
@@ -344,10 +318,3 @@ INSERT INTO article (
     '<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda placeat iure quo fugiat atque officia commodi, perspiciatis adipisci, quam a consequatur aliquam. Earum ad laborum, ut perspiciatis sit consequuntur? Modi.</p>',
     '6'
 );
-
--- -------------------------
-INSERT INTO `comment` (`com_id`, `com_date`, `com_article`, `com_author_name`, `com_author_email`, `com_comment`, `com_status`) VALUES (NULL, current_timestamp(), '2', 'Vitor', 'vitor@email.com', 'Esse artigo é inutil!', 'on');
-
-INSERT INTO `comment` (`com_id`, `com_date`, `com_article`, `com_author_name`, `com_author_email`, `com_comment`, `com_status`) VALUES (NULL, current_timestamp(), '10', 'Maria', 'maria@eamil.com', 'bla bla bla bla bla bla bla bla bla', 'on');
-
-INSERT INTO `comment` (`com_id`, `com_date`, `com_article`, `com_author_name`, `com_author_email`, `com_comment`, `com_status`) VALUES (NULL, current_timestamp(), NULL, 'flavia', 'flavia@email.com', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'on');
