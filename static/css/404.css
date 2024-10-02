@@ -1,25 +1,19 @@
 body {
-    background-color: #f2f2f2;
     font-family: Arial, sans-serif;
     text-align: center;
-    padding: 50px;
+    
+}
+article img{
+    display: block;
+    margin: auto;
+    width: 90%;
 }
 
-h2 {
-    font-size: 50px;
-    color: #333;
-}
 
-p {
-    font-size: 20px;
-    color: #666;
+article{
+    background-color: #FDD001 !important;
 }
-
-a {
-    color: #007BFF;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
+aside {
+    background-color: #FDD001;
+    color: gray;
 }

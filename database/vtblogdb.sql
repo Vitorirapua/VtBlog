@@ -16,7 +16,6 @@ CREATE DATABASE vtblogdb
 
 -- Seleciona o banco de dados para os próximos comandos
 USE vtblogdb;
-
 -- Cria a tabela "staff"
 CREATE TABLE staff (
     sta_id INT PRIMARY KEY AUTO_INCREMENT,
