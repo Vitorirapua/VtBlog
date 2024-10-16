@@ -109,6 +109,7 @@ def view(artid):
         'site': SITE,
         'title': article['art_title'],
         'css': 'view.css',
+        'js': 'view.js',
         'article': article,
         'articles': articles,
         'comments': comments,
@@ -122,10 +123,13 @@ def view(artid):
 def comment():
 
     # Obtém dados do formulario
-    form = request.form
+    form = dict(request.form)
 
-    # Salva comentário no banco de dados
-    save_comment(mysql, form)
+    #Se o form esta vazio
+    if form['name'] != None and form['name'] != '' and form['email'] != None and form['email'] != '':
+
+        # Salva comentário no banco de dados
+        save_comment(mysql, form)
 
     return redirect(f"{url_for('view', artid=form['artid'])}#comments")
 
@@ -157,6 +161,7 @@ def contacts():
         'site': SITE,
         'title': 'Faça contato',
         'css': 'contacts.css',
+        'js': 'contacts.js',
         'success': success,
         'first_name': first_name
     }
@@ -174,6 +179,17 @@ def about():
     }
 
     return render_template('about.html', page=toPage)
+
+@app.route('/profile')
+def profile():
+    toPage = {
+        'site': SITE,
+        'title': 'Pefil do usuário',
+        'css': 'profile.css',
+        'js': 'profile.js'
+    }
+
+    return render_template('profile.html', page=toPage)
 
 
 @app.errorhandler(404)
